@@ -21,24 +21,31 @@ export default createMuiTheme({
       hazyBlue: `${hazyBlue}`,
       lightBlue: `${lightBlue}`,
       seaGreen: `${seaGreen}`,
-      greyTextColor: `${greyTextColor}`
+      greyTextColor: `${greyTextColor}`,
     },
     primary: {
-      main: `${seaGreen}`
+      main: `${seaGreen}`,
     },
     secondary: {
-      main: `${ltiBlue}`
-    }
+      main: `${ltiBlue}`,
+    },
   },
   typography: {
     h4: {
-      fontWeight: 300
+      fontWeight: 500,
     },
     tab: {
       fontFamily: "Raleway",
       fontWeight: 700,
       fontSize: "1rem",
-      minWidth: 10
-    }
-  }
+      minWidth: 10,
+    },
+  },
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        fontSize: 16,
+      },
+    },
+  },
 });

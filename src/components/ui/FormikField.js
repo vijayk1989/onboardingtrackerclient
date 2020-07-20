@@ -1,5 +1,5 @@
 import React from "react";
-import { ErrorMessage, Field } from "formik";
+import { ErrorMessage, Field, FastField } from "formik";
 import TextField from "@material-ui/core/TextField";
 
 function FormikField({
@@ -7,22 +7,33 @@ function FormikField({
   name,
   type = "text",
   required = false,
-  fullWidth = false
+  fullWidth = true,
+  useFastField = true,
 }) {
   return (
-    <Field
-      required={required}
-      autoComplete="off"
-      as={TextField}
-      label={label}
-      name={name}
-      type={type}
-      fullWidth={fullWidth}
-      InputLabelProps={{
-        shrink: true
-      }}
-      helperText={<ErrorMessage name={name} />}
-    ></Field>
+    <React.Fragment>
+      {useFastField ? (
+        <FastField
+          required={required}
+          as={TextField}
+          label={label}
+          name={name}
+          type={type}
+          fullWidth={fullWidth}
+          helperText={<ErrorMessage name={name} />}
+        ></FastField>
+      ) : (
+        <Field
+          required={required}
+          as={TextField}
+          label={label}
+          name={name}
+          type={type}
+          fullWidth={fullWidth}
+          helperText={<ErrorMessage name={name} />}
+        ></Field>
+      )}
+    </React.Fragment>
   );
 }
 

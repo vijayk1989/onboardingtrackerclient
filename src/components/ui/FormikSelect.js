@@ -14,10 +14,11 @@ const MaterialUISelectField = ({
   name,
   onChange,
   onBlur,
-  required
+  required,
+  fullWidth = false
 }) => {
   return (
-    <FormControl fullWidth>
+    <FormControl style={{ minWidth: "200px" }} fullWidth={fullWidth}>
       <InputLabel required={required}>{label}</InputLabel>
       <Select name={name} onChange={onChange} onBlur={onBlur} value={value}>
         {children}
