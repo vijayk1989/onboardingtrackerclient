@@ -48,10 +48,11 @@ const validationSchema = Yup.object({
   ltiDOJ: Yup.date().required(),
   clientCToolID: Yup.string().required(),
   clientDOJ: Yup.date().required(),
+  clientLWD: Yup.date().required(),
   jobCategory: Yup.string().required(),
   dcInitiationDate: Yup.date().required(),
   dcClearedDate: Yup.date().required(),
-  dcStatus: Yup.string().required(),
+  dcstatus: Yup.string().required(),
   pevStatus: Yup.string().required(),
   techSelectStatus: Yup.string().required(),
   countryName: Yup.string().required(),
@@ -69,7 +70,14 @@ const submitFormToBackend = async (data) => {
   }
 };
 
-const onSubmit = (values, { setSubmitting, resetForm }) => {
+const formatDate = (date) => {
+  var year = date.getFullYear().toString();
+  var month = (date.getMonth() + 101).toString().substring(1);
+  var day = (date.getDate() + 100).toString().substring(1);
+  return year + "-" + month + "-" + day;
+};
+
+const onSubmit = (values, { resetForm }) => {
   let locations = {};
   Object.keys(values).forEach((key) => {
     if (key === "countryName") {
@@ -87,21 +95,31 @@ const onSubmit = (values, { setSubmitting, resetForm }) => {
   delete values["odcLTI"];
   delete values["odcClient"];
   values["locations"] = [locations];
-  console.log("values", values);
+  values["clientSelectionDate"] = formatDate(values.clientSelectionDate);
+  values["bgvDate"] = formatDate(values.bgvDate);
+  values["offerReleaseDate"] = formatDate(values.offerReleaseDate);
+  values["ltiDOJ"] = formatDate(values.ltiDOJ);
+  values["clientDOJ"] = formatDate(values.clientDOJ);
+  values["clientLWD"] = formatDate(values.clientLWD);
+  values["dcInitiationDate"] = formatDate(values.dcInitiationDate);
+  values["dcClearedDate"] = formatDate(values.dcClearedDate);
+  values["tentativeDOJ"] = formatDate(values.tentativeDOJ);
+  console.log("values", JSON.stringify(values, null, 2));
   submitFormToBackend(values);
-  setTimeout(() => {
-    setSubmitting(false);
-    resetForm({ values: initialValues });
-  }, 400);
+  resetForm({ values: initialValues });
+  // setTimeout(() => {
+  //   setSubmitting(false);
+
+  // }, 600);
 };
 
 const internalSelect = [
   {
-    value: "internal",
+    value: "Internal",
     label: "Internal",
   },
   {
-    value: "external",
+    value: "External",
     label: "External",
   },
 ];
@@ -136,32 +154,33 @@ const initialValues = {
   clientHiringManager: "",
   clientHead: "",
   billRate: "",
-  bgvDate: "",
+  bgvDate: null,
   bgvStatus: "",
   locationStatus: "",
   status: "",
   actionItems: "",
-  offerReleaseDate: "",
+  offerReleaseDate: null,
   ltiDOJ: "",
   ltiRR: "",
   litOpportunity: "",
   clientCToolID: "",
   positionID: "",
   costCenter: "",
-  clientDOJ: "",
-  clientLWD: "",
+  clientDOJ: null,
+  clientLWD: null,
   jobCategory: "",
-  dcInitiationDate: "",
-  dcClearedDate: "",
-  dcStatus: "",
+  dcInitiationDate: null,
+  dcClearedDate: null,
+  dcstatus: "",
   pevStatus: "",
   techSelectStatus: "",
   remarks: "",
   peoplesoftID: "",
-  tentativeDOJ: "",
+  tentativeDOJ: null,
   dcAging: 1,
   bgvAging: 1,
   internalAging: 1,
+  selectionAgingDays: 1,
   countryName: "",
   cityName: "",
   odcLTI: "",
@@ -229,6 +248,7 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField
                       name="totalExp"
+                      type="number"
                       label="Total Experience"
                       required
                     />
@@ -394,7 +414,7 @@ function CreateCandidate() {
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
-                      name="dcStatus"
+                      name="dcstatus"
                       items={statuses}
                       label="DC Status"
                       required
@@ -462,51 +482,56 @@ function CreateCandidate() {
   );
 }
 
-/*
-{
-"candidateName": "Andrew",
-"onboardingStatus": "Internal",
-"candidateLTIId": "1987347",
-"clientSelectionDate": "2020-07-15",
-"grade": "A-1-2",
-"skills": "Java,Microservices,Springboot",
-"totalExp": 100,
-"baseBU":"A3",
-"clientBU":"Core Banking",
-"salesPOC":"Indranil",
-"deliveryManager":"Ramkumar Golagabathula",
-"clientHiringManager":"Sanjay Kumar Lokhande",
-"clientHead":"Sumati Chedimali",
-"billRate":"160",
-"bgvDate":"2020-07-15",
-"bgvStatus":"",
-"locationStatus":"",
-"status":"",
-"actionItems":"",
-"offerReleaseDate":"",
-"ltiDOJ":"",
-"ltiRR":"",
-"litOpportunity":"",
-"clientCToolID":"",
-"positionID":"",
-"costCenter":"",
-"clientDOJ":"",
-"clientLWD":"",
-"jobCategory":"",
-"dcInitiationDate":"",
-"dcClearedDate":"",
-"dcstatus":"",
-"pevStatus":"",
-"techSelectStatus":"",
-"remarks":"",
-"peoplesoftID":"",
-"tentativeDOJ":"",
-"dcAging":1,
-"bgvAging":1,
-"internalAging":1,
-"selectionAgingDays":1,
-"locations":[ { "countryName": "India","cityName":"Pune","odcLTI":"","odcClient": "Sivajinager" },{ "countryName" : "UK","cityName":"London","odcLTI":"London Bridge ","odcClient":"" }]
-}
+/* 
+  "candidateName": "abc",
+  "onboardingStatus": "internal",
+  "candidateLTIId": "abc",
+  "clientSelectionDate": "2020-07-02",
+  "grade": "A1",
+  "skills": "abc",
+  "totalExp": "7",
+  "baseBU": "abc",
+  "clientBU": "abc",
+  "salesPOC": "abc",
+  "deliveryManager": "abc",
+  "clientHiringManager": "abc",
+  "clientHead": "abc",
+  "billRate": "100",
+  "bgvDate": "2020-07-20",
+  "bgvStatus": "cleared",
+  "locationStatus": "cleared",
+  "status": "cleared",
+  "actionItems": "abc",
+  "offerReleaseDate": "2020-07-20",
+  "ltiDOJ": "2020-07-20",
+  "ltiRR": "abc",
+  "litOpportunity": "abc",
+  "clientCToolID": "abc",
+  "positionID": "abc",
+  "costCenter": "abc",
+  "clientDOJ": "2020-07-20",
+  "clientLWD": "2020-07-20",
+  "jobCategory": "abc",
+  "dcInitiationDate": "2020-07-20",
+  "dcClearedDate": "2020-07-20",
+  "dcstatus": "cleared",
+  "pevStatus": "cleared",
+  "techSelectStatus": "cleared",
+  "remarks": "abc",
+  "peoplesoftID": "abc",
+  "tentativeDOJ": "2020-07-20",
+  "dcAging": 1,
+  "bgvAging": 1,
+  "internalAging": 1,
+  "selectionAgingDays": 1,
+  "locations": [
+    {
+      "countryName": "abc",
+      "cityName": "abc",
+      "odcLTI": "abc",
+      "odcClient": "abc"
+    }
+  ]
 */
 
 export default CreateCandidate;

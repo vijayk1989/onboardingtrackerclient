@@ -15,35 +15,35 @@ function ElevationScroll(props) {
 
   const trigger = useScrollTrigger({
     disableHysteresis: true,
-    threshold: 0
+    threshold: 0,
   });
 
   return React.cloneElement(children, {
-    elevation: trigger ? 4 : 0
+    elevation: trigger ? 4 : 0,
   });
 }
 
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
-    ...theme.mixins.toolbar
+    ...theme.mixins.toolbar,
   },
   logo: {
     height: "2rem",
-    marginLeft: "1rem"
+    marginLeft: "1rem",
   },
   logoText: {
-    marginLeft: "1rem"
+    marginLeft: "1rem",
   },
   tabsContainer: {
-    marginLeft: "auto"
+    marginLeft: "auto",
   },
   tab: {
     ...theme.typography.tab,
     marginLeft: "20px",
     "&:nth-last-child(1)": {
-      marginRight: "20px"
-    }
-  }
+      marginRight: "20px",
+    },
+  },
 }));
 
 function Header(props) {
@@ -69,7 +69,7 @@ function Header(props) {
           <Toolbar disableGutters>
             <img src={logo} className={classes.logo} alt="company logo" />
             <Typography variant="h4" className={classes.logoText}>
-              OC
+              Tracker
             </Typography>
             <Tabs
               value={value}
