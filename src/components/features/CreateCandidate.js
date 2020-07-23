@@ -55,10 +55,11 @@ const validationSchema = Yup.object({
   dcstatus: Yup.string().required(),
   pevStatus: Yup.string().required(),
   techSelectStatus: Yup.string().required(),
-  countryName: Yup.string().required(),
-  cityName: Yup.string().required(),
-  odcLTI: Yup.string().required(),
-  odcClient: Yup.string().required(),
+  techSelectionDate: Yup.date().required(),
+  ltiWorkCountryName: Yup.string().required(),
+  ltiWorkCityName: Yup.string().required(),
+  clientWorkCountryName: Yup.string().required(),
+  clientWorkCityName: Yup.string().required(),
 });
 
 const submitFormToBackend = async (data) => {
@@ -75,42 +76,6 @@ const formatDate = (date) => {
   var month = (date.getMonth() + 101).toString().substring(1);
   var day = (date.getDate() + 100).toString().substring(1);
   return year + "-" + month + "-" + day;
-};
-
-const onSubmit = (values, { resetForm }) => {
-  let locations = {};
-  Object.keys(values).forEach((key) => {
-    if (key === "countryName") {
-      locations[key] = values[key];
-    } else if (key === "cityName") {
-      locations[key] = values[key];
-    } else if (key === "odcLTI") {
-      locations[key] = values[key];
-    } else if (key === "odcClient") {
-      locations[key] = values[key];
-    }
-  });
-  delete values["countryName"];
-  delete values["cityName"];
-  delete values["odcLTI"];
-  delete values["odcClient"];
-  values["locations"] = [locations];
-  values["clientSelectionDate"] = formatDate(values.clientSelectionDate);
-  values["bgvDate"] = formatDate(values.bgvDate);
-  values["offerReleaseDate"] = formatDate(values.offerReleaseDate);
-  values["ltiDOJ"] = formatDate(values.ltiDOJ);
-  values["clientDOJ"] = formatDate(values.clientDOJ);
-  values["clientLWD"] = formatDate(values.clientLWD);
-  values["dcInitiationDate"] = formatDate(values.dcInitiationDate);
-  values["dcClearedDate"] = formatDate(values.dcClearedDate);
-  values["tentativeDOJ"] = formatDate(values.tentativeDOJ);
-  console.log("values", JSON.stringify(values, null, 2));
-  submitFormToBackend(values);
-  resetForm({ values: initialValues });
-  // setTimeout(() => {
-  //   setSubmitting(false);
-
-  // }, 600);
 };
 
 const internalSelect = [
@@ -160,7 +125,7 @@ const initialValues = {
   status: "",
   actionItems: "",
   offerReleaseDate: null,
-  ltiDOJ: "",
+  ltiDOJ: null,
   ltiRR: "",
   litOpportunity: "",
   clientCToolID: "",
@@ -174,6 +139,7 @@ const initialValues = {
   dcstatus: "",
   pevStatus: "",
   techSelectStatus: "",
+  techSelectionDate: null,
   remarks: "",
   peoplesoftID: "",
   tentativeDOJ: null,
@@ -181,14 +147,50 @@ const initialValues = {
   bgvAging: 1,
   internalAging: 1,
   selectionAgingDays: 1,
-  countryName: "",
-  cityName: "",
-  odcLTI: "",
-  odcClient: "",
+  ltiWorkCountryName: "",
+  ltiWorkCityName: "",
+  clientWorkCountryName: "",
+  clientWorkCityName: "",
 };
 
 function CreateCandidate() {
   const classes = useStyles();
+  const onSubmit = (values, { resetForm }) => {
+    let location = {};
+    Object.keys(values).forEach((key) => {
+      if (key === "ltiWorkCountryName") {
+        location[key] = values[key];
+      } else if (key === "ltiWorkCityName") {
+        location[key] = values[key];
+      } else if (key === "clientWorkCountryName") {
+        location[key] = values[key];
+      } else if (key === "clientWorkCityName") {
+        location[key] = values[key];
+      }
+    });
+    delete values["ltiWorkCountryName"];
+    delete values["ltiWorkCityName"];
+    delete values["clientWorkCountryName"];
+    delete values["clientWorkCityName"];
+    values["location"] = location;
+    values["clientSelectionDate"] = formatDate(values.clientSelectionDate);
+    values["bgvDate"] = formatDate(values.bgvDate);
+    values["offerReleaseDate"] = formatDate(values.offerReleaseDate);
+    values["ltiDOJ"] = formatDate(values.ltiDOJ);
+    values["clientDOJ"] = formatDate(values.clientDOJ);
+    values["clientLWD"] = formatDate(values.clientLWD);
+    values["dcInitiationDate"] = formatDate(values.dcInitiationDate);
+    values["dcClearedDate"] = formatDate(values.dcClearedDate);
+    values["tentativeDOJ"] = formatDate(values.tentativeDOJ);
+    values["delete"] = false;
+    console.log("values", JSON.stringify(values, null, 2));
+    submitFormToBackend(values);
+    alert("Form Submitted successfully");
+    resetForm({ values: initialValues });
+    // setTimeout(() => {
+    //   setSubmitting(false);
+    // }, 600);
+  };
   return (
     <React.Fragment>
       <Typography variant="h5">New Candidate Form</Typography>
@@ -234,7 +236,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="clientSelectionDate"
                       label="Client Selection Date"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -249,7 +251,7 @@ function CreateCandidate() {
                     <FormikField
                       name="totalExp"
                       type="number"
-                      label="Total Experience"
+                      label="Total Experience (Months)"
                       required
                     />
                   </Grid>
@@ -291,7 +293,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="bgvDate"
                       label="BGV Date"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -328,7 +330,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="offerReleaseDate"
                       label="Offer Release Date"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -338,7 +340,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="ltiDOJ"
                       label="LTI DOJ"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -374,7 +376,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="clientDOJ"
                       label="Client DOJ"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -384,7 +386,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="clientLWD"
                       label="Client LWD"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -397,7 +399,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="dcInitiationDate"
                       label="DC Initiation Date"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -407,7 +409,7 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="dcClearedDate"
                       label="DC Cleared Date"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
@@ -437,6 +439,16 @@ function CreateCandidate() {
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
+                    <Field
+                      component={DatePicker}
+                      name="techSelectionDate"
+                      label="Tech Selection Date"
+                      variant="dialog"
+                      format="dd/MM/yyyy"
+                      required
+                    />
+                  </Grid>
+                  <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField name="remarks" label="Remarks" />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -447,22 +459,34 @@ function CreateCandidate() {
                       component={DatePicker}
                       name="tentativeDOJ"
                       label="Tentative DOJ"
-                      variant="inline"
+                      variant="dialog"
                       format="dd/MM/yyyy"
                       required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="countryName" label="Country Name" />
+                    <FormikField
+                      name="ltiWorkCountryName"
+                      label="Candidate Country"
+                    />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="cityName" label="City Name" />
+                    <FormikField
+                      name="ltiWorkCityName"
+                      label="Candidate City"
+                    />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="odcLTI" label="ODC LTI" />
+                    <FormikField
+                      name="clientWorkCountryName"
+                      label="Client Country"
+                    />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="odcClient" label="ODC Client" />
+                    <FormikField
+                      name="clientWorkCityName"
+                      label="Client City"
+                    />
                   </Grid>
                 </Grid>
                 <Button
@@ -524,12 +548,12 @@ function CreateCandidate() {
   "bgvAging": 1,
   "internalAging": 1,
   "selectionAgingDays": 1,
-  "locations": [
+  "location": [
     {
-      "countryName": "abc",
-      "cityName": "abc",
-      "odcLTI": "abc",
-      "odcClient": "abc"
+      "ltiWorkCountryName": "abc",
+      "ltiWorkCityName": "abc",
+      "clientWorkCountryName": "abc",
+      "clientWorkCityName": "abc"
     }
   ]
 */

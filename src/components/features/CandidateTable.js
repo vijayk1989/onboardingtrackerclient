@@ -45,26 +45,30 @@ const tableIcons = {
 
 function CandidateTable() {
   const [Data, setData] = useState([]);
+
   const prepareTableData = (data) => {
     const clonedData = [...data];
 
     const cleanedData = clonedData.map((cData) => {
       delete cData["sId"];
-      cData["countryName"] = cData["locations"][0]["countryName"];
-      cData["cityName"] = cData["locations"][0]["cityName"];
-      cData["odcLTI"] = cData["locations"][0]["odcLTI"];
-      cData["odcClient"] = cData["locations"][0]["odcClient"];
-      delete cData["locations"];
+      cData["ltiWorkCountryName"] = cData["location"]["ltiWorkCountryName"];
+      cData["ltiWorkCityName"] = cData["location"]["ltiWorkCityName"];
+      cData["clientWorkCountryName"] =
+        cData["location"]["clientWorkCountryName"];
+      cData["clientWorkCityName"] = cData["location"]["clientWorkCityName"];
+      delete cData["location"];
       return cData;
     });
     console.log(cleanedData);
     setData(cleanedData);
   };
+
   useEffect(() => {
     const getTableData = async () => {
       try {
         const response = await axios.get("http://localhost:8080/onboarding");
         if (response.data) {
+          // console.log(response.data);
           prepareTableData(response.data);
           return response.data;
         }
@@ -176,6 +180,10 @@ function CandidateTable() {
             field: "techSelectStatus",
           },
           {
+            title: "Tech Selection Day",
+            field: "techSelectionDate",
+          },
+          {
             title: "Remarks",
             field: "remarks",
           },
@@ -195,20 +203,20 @@ function CandidateTable() {
             field: "selectionAgingDays",
           },
           {
-            title: "Country",
-            field: "countryName",
+            title: "Candidate Country",
+            field: "ltiWorkCountryName",
           },
           {
-            title: "City",
-            field: "cityName",
+            title: "Candidate City",
+            field: "ltiWorkCityName",
           },
           {
-            title: "ODC LTI",
-            field: "odcLTI",
+            title: "Client Country",
+            field: "clientWorkCountryName",
           },
           {
-            title: "ODC Client",
-            field: "odcClient",
+            title: "Client City",
+            field: "clientWorkCityName",
           },
         ]}
         data={Data}

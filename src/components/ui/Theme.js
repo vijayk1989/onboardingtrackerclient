@@ -45,6 +45,8 @@ export default createMuiTheme({
     MuiInputLabel: {
       root: {
         fontSize: 16,
+        fontWeight: 400,
+        color: "rgba(0, 0, 0, 0.87)",
       },
     },
   },
