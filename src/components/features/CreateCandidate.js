@@ -111,7 +111,7 @@ const initialValues = {
   clientSelectionDate: null,
   grade: "",
   skills: "",
-  totalExp: 0,
+  totalExp: "",
   baseBU: "",
   clientBU: "",
   salesPOC: "",
@@ -187,9 +187,6 @@ function CreateCandidate() {
     submitFormToBackend(values);
     alert("Form Submitted successfully");
     resetForm({ values: initialValues });
-    // setTimeout(() => {
-    //   setSubmitting(false);
-    // }, 600);
   };
   return (
     <React.Fragment>
