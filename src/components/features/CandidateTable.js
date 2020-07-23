@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import { forwardRef } from "react";
 
 import AddBox from "@material-ui/icons/AddBox";
@@ -18,6 +19,7 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import MaterialTable from "material-table";
+import { TrackerContext } from "../../context/TrackerContext";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -45,6 +47,8 @@ const tableIcons = {
 
 function CandidateTable() {
   const [Data, setData] = useState([]);
+  const { setFormData } = useContext(TrackerContext);
+  const history = useHistory();
 
   const prepareTableData = (data) => {
     const clonedData = [...data];
@@ -221,6 +225,16 @@ function CandidateTable() {
         ]}
         data={Data}
         title="Candidate Onboarding Table"
+        actions={[
+          {
+            icon: () => <Edit />,
+            tooltip: "Edit data",
+            onClick: (event, rowData) => {
+              setFormData(rowData);
+              history.push("/create");
+            },
+          },
+        ]}
       />
     </div>
   );

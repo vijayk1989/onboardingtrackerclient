@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/styles";
@@ -11,6 +11,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { DatePicker } from "formik-material-ui-pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
+import { TrackerContext } from "../../context/TrackerContext";
 
 const useStyles = makeStyles((theme) => ({
   candidateFormGrid: {
@@ -104,57 +105,58 @@ const statuses = [
   },
 ];
 
-const initialValues = {
-  candidateName: "",
-  onboardingStatus: "",
-  candidateLTIId: "",
-  clientSelectionDate: null,
-  grade: "",
-  skills: "",
-  totalExp: "",
-  baseBU: "",
-  clientBU: "",
-  salesPOC: "",
-  deliveryManager: "",
-  clientHiringManager: "",
-  clientHead: "",
-  billRate: "",
-  bgvDate: null,
-  bgvStatus: "",
-  locationStatus: "",
-  status: "",
-  actionItems: "",
-  offerReleaseDate: null,
-  ltiDOJ: null,
-  ltiRR: "",
-  litOpportunity: "",
-  clientCToolID: "",
-  positionID: "",
-  costCenter: "",
-  clientDOJ: null,
-  clientLWD: null,
-  jobCategory: "",
-  dcInitiationDate: null,
-  dcClearedDate: null,
-  dcstatus: "",
-  pevStatus: "",
-  techSelectStatus: "",
-  techSelectionDate: null,
-  remarks: "",
-  peoplesoftID: "",
-  tentativeDOJ: null,
-  dcAging: 1,
-  bgvAging: 1,
-  internalAging: 1,
-  selectionAgingDays: 1,
-  ltiWorkCountryName: "",
-  ltiWorkCityName: "",
-  clientWorkCountryName: "",
-  clientWorkCityName: "",
-};
+// const initialValues = {
+//   candidateName: "",
+//   onboardingStatus: "",
+//   candidateLTIId: "",
+//   clientSelectionDate: null,
+//   grade: "",
+//   skills: "",
+//   totalExp: "",
+//   baseBU: "",
+//   clientBU: "",
+//   salesPOC: "",
+//   deliveryManager: "",
+//   clientHiringManager: "",
+//   clientHead: "",
+//   billRate: "",
+//   bgvDate: null,
+//   bgvStatus: "",
+//   locationStatus: "",
+//   status: "",
+//   actionItems: "",
+//   offerReleaseDate: null,
+//   ltiDOJ: null,
+//   ltiRR: "",
+//   litOpportunity: "",
+//   clientCToolID: "",
+//   positionID: "",
+//   costCenter: "",
+//   clientDOJ: null,
+//   clientLWD: null,
+//   jobCategory: "",
+//   dcInitiationDate: null,
+//   dcClearedDate: null,
+//   dcstatus: "",
+//   pevStatus: "",
+//   techSelectStatus: "",
+//   techSelectionDate: null,
+//   remarks: "",
+//   peoplesoftID: "",
+//   tentativeDOJ: null,
+//   dcAging: 1,
+//   bgvAging: 1,
+//   internalAging: 1,
+//   selectionAgingDays: 1,
+//   ltiWorkCountryName: "",
+//   ltiWorkCityName: "",
+//   clientWorkCountryName: "",
+//   clientWorkCityName: "",
+// };
 
 function CreateCandidate() {
   const classes = useStyles();
+  const { formData } = useContext(TrackerContext);
   const onSubmit = (values, { resetForm }) => {
     let location = {};
     Object.keys(values).forEach((key) => {
@@ -186,14 +188,14 @@ function CreateCandidate() {
     console.log("values", JSON.stringify(values, null, 2));
     submitFormToBackend(values);
     alert("Form Submitted successfully");
-    resetForm({ values: initialValues });
+    resetForm({ values: formData });
   };
   return (
     <React.Fragment>
       <Typography variant="h5">New Candidate Form</Typography>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Formik
-          initialValues={initialValues}
+          initialValues={formData}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
