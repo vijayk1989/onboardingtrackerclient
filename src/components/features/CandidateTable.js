@@ -47,14 +47,13 @@ const tableIcons = {
 
 function CandidateTable() {
   const [Data, setData] = useState([]);
-  const { setFormData } = useContext(TrackerContext);
+  const { setFormData, setIsEditing, setEditID } = useContext(TrackerContext);
   const history = useHistory();
 
   const prepareTableData = (data) => {
     const clonedData = [...data];
 
     const cleanedData = clonedData.map((cData) => {
-      delete cData["sId"];
       cData["ltiWorkCountryName"] = cData["location"]["ltiWorkCountryName"];
       cData["ltiWorkCityName"] = cData["location"]["ltiWorkCityName"];
       cData["clientWorkCountryName"] =
@@ -184,7 +183,7 @@ function CandidateTable() {
             field: "techSelectStatus",
           },
           {
-            title: "Tech Selection Day",
+            title: "Tech Selection Date",
             field: "techSelectionDate",
           },
           {
@@ -222,6 +221,11 @@ function CandidateTable() {
             title: "Client City",
             field: "clientWorkCityName",
           },
+          {
+            title: "ID",
+            field: "sID",
+            hidden: true,
+          },
         ]}
         data={Data}
         title="Candidate Onboarding Table"
@@ -231,6 +235,8 @@ function CandidateTable() {
             tooltip: "Edit data",
             onClick: (event, rowData) => {
               setFormData(rowData);
+              setEditID(rowData.sId);
+              setIsEditing(true);
               history.push("/create");
             },
           },

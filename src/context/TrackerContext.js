@@ -53,8 +53,19 @@ export const initialFormData = {
 
 const TrackerContextProvider = (props) => {
   const [formData, setFormData] = useState(initialFormData);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editID, setEditID] = useState(null);
   return (
-    <TrackerContext.Provider value={{ formData, setFormData }}>
+    <TrackerContext.Provider
+      value={{
+        formData,
+        setFormData,
+        isEditing,
+        setIsEditing,
+        editID,
+        setEditID,
+      }}
+    >
       {props.children}
     </TrackerContext.Provider>
   );

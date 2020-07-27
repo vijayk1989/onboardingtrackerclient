@@ -11,7 +11,8 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { DatePicker } from "formik-material-ui-pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
-import { TrackerContext } from "../../context/TrackerContext";
+import { TrackerContext, initialFormData } from "../../context/TrackerContext";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   candidateFormGrid: {
@@ -28,28 +29,31 @@ const validationSchema = Yup.object({
   onboardingStatus: Yup.string().required(
     "Onboarding Status is a required field"
   ),
-  candidateLTIId: Yup.string().required(),
-  clientSelectionDate: Yup.date().required(),
-  grade: Yup.string().required(),
-  skills: Yup.string().required(),
-  totalExp: Yup.number().required(),
-  baseBU: Yup.string().required(),
-  clientBU: Yup.string().required(),
-  salesPOC: Yup.string().required(),
-  deliveryManager: Yup.string().required(),
-  clientHiringManager: Yup.string().required(),
-  clientHead: Yup.string().required(),
-  billRate: Yup.string().required(),
-  bgvDate: Yup.date().required(),
+  candidateLTIId: Yup.string().required("Candidate LTI Id is a required field"),
+  clientSelectionDate: Yup.date().required(
+    "Candidate Selection date is a required field"
+  ),
+  grade: Yup.string().required("Grade is a required field"),
+  skills: Yup.string().required("Skills is a required field"),
+  totalExp: Yup.number().required(
+    "Total experience is a required field and should be in months"
+  ),
+  baseBU: Yup.string().required("Base BU is a required field"),
+  clientBU: Yup.string().required("Client BU is a required field"),
+  salesPOC: Yup.string().required("Sales POC"),
+  deliveryManager: Yup.string().required(
+    "Delivery manager is a required field"
+  ),
+  clientHiringManager: Yup.string().required(
+    "Client hiring manager is a required field"
+  ),
+  clientHead: Yup.string().required("Client head is a requied field"),
+  billRate: Yup.string().required("Bill rate is a required field"),
   bgvStatus: Yup.string().required(),
   locationStatus: Yup.string().required(),
-  status: Yup.string().required(),
-  actionItems: Yup.string().required(),
   offerReleaseDate: Yup.string().required(),
   ltiDOJ: Yup.date().required(),
   clientCToolID: Yup.string().required(),
-  clientDOJ: Yup.date().required(),
-  clientLWD: Yup.date().required(),
   jobCategory: Yup.string().required(),
   dcInitiationDate: Yup.date().required(),
   dcClearedDate: Yup.date().required(),
@@ -57,20 +61,17 @@ const validationSchema = Yup.object({
   pevStatus: Yup.string().required(),
   techSelectStatus: Yup.string().required(),
   techSelectionDate: Yup.date().required(),
-  ltiWorkCountryName: Yup.string().required(),
-  ltiWorkCityName: Yup.string().required(),
-  clientWorkCountryName: Yup.string().required(),
-  clientWorkCityName: Yup.string().required(),
+  ltiWorkCountryName: Yup.string().required(
+    "Base location country is required"
+  ),
+  ltiWorkCityName: Yup.string().required("Base location country is required"),
+  clientWorkCountryName: Yup.string().required(
+    "Client location country is required"
+  ),
+  clientWorkCityName: Yup.string().required(
+    "Client location country is required"
+  ),
 });
-
-const submitFormToBackend = async (data) => {
-  try {
-    const response = await axios.post("http://localhost:8080/onboarding", data);
-    console.log(response);
-  } catch (e) {
-    console.log("Axios Error", e);
-  }
-};
 
 const formatDate = (date) => {
   var year = date.getFullYear().toString();
@@ -105,58 +106,67 @@ const statuses = [
   },
 ];
 
-// const initialValues = {
-//   candidateName: "",
-//   onboardingStatus: "",
-//   candidateLTIId: "",
-//   clientSelectionDate: null,
-//   grade: "",
-//   skills: "",
-//   totalExp: "",
-//   baseBU: "",
-//   clientBU: "",
-//   salesPOC: "",
-//   deliveryManager: "",
-//   clientHiringManager: "",
-//   clientHead: "",
-//   billRate: "",
-//   bgvDate: null,
-//   bgvStatus: "",
-//   locationStatus: "",
-//   status: "",
-//   actionItems: "",
-//   offerReleaseDate: null,
-//   ltiDOJ: null,
-//   ltiRR: "",
-//   litOpportunity: "",
-//   clientCToolID: "",
-//   positionID: "",
-//   costCenter: "",
-//   clientDOJ: null,
-//   clientLWD: null,
-//   jobCategory: "",
-//   dcInitiationDate: null,
-//   dcClearedDate: null,
-//   dcstatus: "",
-//   pevStatus: "",
-//   techSelectStatus: "",
-//   techSelectionDate: null,
-//   remarks: "",
-//   peoplesoftID: "",
-//   tentativeDOJ: null,
-//   dcAging: 1,
-//   bgvAging: 1,
-//   internalAging: 1,
-//   selectionAgingDays: 1,
-//   ltiWorkCountryName: "",
-//   ltiWorkCityName: "",
-//   clientWorkCountryName: "",
-//   clientWorkCityName: "",
-// };
+const bgvStatus = [
+  {
+    value: "initiated",
+    label: "Initiated",
+  },
+  {
+    value: "documentSubmitted",
+    label: "Document Submitted",
+  },
+  {
+    value: "documentReceived",
+    label: "Document Received",
+  },
+  {
+    value: "WIP",
+    label: "WIP",
+  },
+  {
+    value: "completed",
+    label: "Completed",
+  },
+  {
+    value: "consultHR",
+    label: "Consult HR",
+  },
+];
 
 function CreateCandidate() {
   const classes = useStyles();
-  const { formData } = useContext(TrackerContext);
+  const { formData, isEditing, editID, setIsEditing, setFormData } = useContext(
+    TrackerContext
+  );
+  const history = useHistory();
+
+  const submitFormToBackend = async (data) => {
+    try {
+      if (!isEditing) {
+        const response = await axios.post(
+          "http://localhost:8080/onboarding",
+          data
+        );
+        console.log(response);
+        setFormData(initialFormData);
+        alert("Form Submitted successfully");
+        history.push("/");
+      } else {
+        const response = await axios.put(
+          `http://localhost:8080/onboarding/${editID}`,
+          data
+        );
+        setIsEditing(false);
+        setFormData(initialFormData);
+        console.log(response);
+        alert("Candidate data was successfully edited");
+        history.push("/");
+      }
+    } catch (e) {
+      console.log("Axios Error", e);
+    }
+  };
+
   const onSubmit = (values, { resetForm }) => {
     let location = {};
     Object.keys(values).forEach((key) => {
@@ -174,22 +184,28 @@ function CreateCandidate() {
     delete values["ltiWorkCityName"];
     delete values["clientWorkCountryName"];
     delete values["clientWorkCityName"];
+    if (!isEditing) {
+      values["clientSelectionDate"] = formatDate(values.clientSelectionDate);
+      values["bgvDate"] = values["bgvDate"] ? formatDate(values.bgvDate) : null;
+      values["offerReleaseDate"] = formatDate(values.offerReleaseDate);
+      values["ltiDOJ"] = formatDate(values.ltiDOJ);
+      values["clientDOJ"] = values["clientDOJ"]
+        ? formatDate(values.clientDOJ)
+        : null;
+      values["clientLWD"] = values["clientLWD"]
+        ? formatDate(values.clientLWD)
+        : null;
+      values["dcInitiationDate"] = formatDate(values.dcInitiationDate);
+      values["dcClearedDate"] = formatDate(values.dcClearedDate);
+      values["tentativeDOJ"] = formatDate(values.tentativeDOJ);
+    }
     values["location"] = location;
-    values["clientSelectionDate"] = formatDate(values.clientSelectionDate);
-    values["bgvDate"] = formatDate(values.bgvDate);
-    values["offerReleaseDate"] = formatDate(values.offerReleaseDate);
-    values["ltiDOJ"] = formatDate(values.ltiDOJ);
-    values["clientDOJ"] = formatDate(values.clientDOJ);
-    values["clientLWD"] = formatDate(values.clientLWD);
-    values["dcInitiationDate"] = formatDate(values.dcInitiationDate);
-    values["dcClearedDate"] = formatDate(values.dcClearedDate);
-    values["tentativeDOJ"] = formatDate(values.tentativeDOJ);
     values["delete"] = false;
     console.log("values", JSON.stringify(values, null, 2));
     submitFormToBackend(values);
-    alert("Form Submitted successfully");
-    resetForm({ values: formData });
+    // resetForm({ values: formData });
   };
+
   return (
     <React.Fragment>
       <Typography variant="h5">New Candidate Form</Typography>
@@ -300,7 +316,7 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="bgvStatus"
-                      items={statuses}
+                      items={bgvStatus}
                       label="BGV Status"
                       required
                     />
@@ -377,7 +393,6 @@ function CreateCandidate() {
                       label="Client DOJ"
                       variant="dialog"
                       format="dd/MM/yyyy"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -387,7 +402,6 @@ function CreateCandidate() {
                       label="Client LWD"
                       variant="dialog"
                       format="dd/MM/yyyy"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -494,7 +508,7 @@ function CreateCandidate() {
                   type="submit"
                   color="primary"
                 >
-                  Submit
+                  {isEditing ? "Edit" : "Submit"}
                 </Button>
               </Form>
             );
