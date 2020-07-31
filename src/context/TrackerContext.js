@@ -41,14 +41,11 @@ export const initialFormData = {
   remarks: "",
   peoplesoftID: "",
   tentativeDOJ: null,
-  dcAging: 1,
-  bgvAging: 1,
-  internalAging: 1,
-  selectionAgingDays: 1,
   ltiWorkCountryName: "",
   ltiWorkCityName: "",
   clientWorkCountryName: "",
   clientWorkCityName: "",
+  deleted: "false",
 };
 
 const TrackerContextProvider = (props) => {

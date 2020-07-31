@@ -88,6 +88,12 @@ function Header(props) {
                 className={classes.tab}
                 label="Create"
               />
+              <Tab
+                component={Link}
+                to="/tracker"
+                className={classes.tab}
+                label="Tracker"
+              />
             </Tabs>
           </Toolbar>
         </AppBar>

@@ -95,7 +95,7 @@ function CandidateTable() {
           },
           {
             cellStyle: { minWidth: "200px" },
-            title: "Onboarding Status",
+            title: "Internal/External",
             field: "onboardingStatus",
           },
           {

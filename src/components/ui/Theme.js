@@ -49,5 +49,8 @@ export default createMuiTheme({
         color: "rgba(0, 0, 0, 0.87)",
       },
     },
+    MuiTableCell: {
+      fontSize: 20,
+    },
   },
 });
