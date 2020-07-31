@@ -74,9 +74,9 @@ const validationSchema = Yup.object({
   clientCToolID: Yup.string()
   .matches(/^[a-zA-Z0-9]+$/, 'Please enter valid Client CTool ID'),
   jobCategory: Yup.string(),
-  dcInitiationDate: Yup.date().required(),
-  dcClearedDate: Yup.date().required(),
-  dcstatus: Yup.string().required(),
+  dcInitiationDate: Yup.date(),
+  dcClearedDate: Yup.date(),
+  dcstatus: Yup.string(),
   pevStatus: Yup.string().required(),
   techSelectStatus: Yup.string().required(),
   techSelectionDate: Yup.date().required(),
@@ -130,6 +130,17 @@ const statuses = [
   {
     value: "notInitiated",
     label: "Not Initiated",
+  },
+];
+
+const dcStatus = [
+  {
+    value: "dcInitiated",
+    label: "DC Initiated",
+  },
+  {
+    value: "dcCompleted",
+    label: "DC Completed",
   },
 ];
 
@@ -438,7 +449,6 @@ function CreateCandidate() {
                       label="DC Initiation Date"
                       variant="dialog"
                       format="dd/MM/yyyy"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -448,15 +458,13 @@ function CreateCandidate() {
                       label="DC Cleared Date"
                       variant="dialog"
                       format="dd/MM/yyyy"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="dcstatus"
-                      items={statuses}
+                      items={dcStatus}
                       label="DC Status"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
