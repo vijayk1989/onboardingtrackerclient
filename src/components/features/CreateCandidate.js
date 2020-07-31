@@ -165,18 +165,18 @@ const statuses = [
     label: "Pending",
   },
   {
-    value: "notInitiated",
+    value: "Not Initiated",
     label: "Not Initiated",
   },
 ];
 
 const dcStatus = [
   {
-    value: "dcInitiated",
+    value: "DC Initiated",
     label: "DC Initiated",
   },
   {
-    value: "dcCompleted",
+    value: "DC Completed",
     label: "DC Completed",
   },
 ];
