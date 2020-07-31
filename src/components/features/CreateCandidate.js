@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
   ),
   baseBU: Yup.string().required("Base BU is a required field"),
   clientBU: Yup.string().required("Client BU is a required field"),
-  salesPOC: Yup.string().required("Sales POC"),
+  salesPOC: Yup.string().required("Sales POC is a required field"),
   deliveryManager: Yup.string()
   .matches(/^[a-zA-Z]+$/, 'Please enter valid Delivery manager name')
   .required(
@@ -67,7 +67,7 @@ const validationSchema = Yup.object({
   billRate: Yup.string()
   .matches(/[a-zA-Z0-9$]/g, 'Please enter valid Bill Rate')
   .required("Bill rate is a required field"),
-  bgvStatus: Yup.string().required(),
+  bgvStatus: Yup.string().required("BGV Status is required"),
   locationStatus: Yup.string().required(),
   //offerReleaseDate: Yup.string().required(),
   ltiDOJ: Yup.date().required(),
@@ -77,9 +77,11 @@ const validationSchema = Yup.object({
   dcInitiationDate: Yup.date(),
   dcClearedDate: Yup.date(),
   dcstatus: Yup.string(),
-  pevStatus: Yup.string().required(),
-  techSelectStatus: Yup.string().required(),
-  techSelectionDate: Yup.date().required(),
+  pevStatus: Yup.string(),
+  peoplesoftID: Yup.string()
+    .matches(/^[0-9]+$/, 'Please enter valid Peoplesoft ID'),
+  techSelectStatus: Yup.string(),
+  techSelectionDate: Yup.date(),
   ltiWorkCountryName: Yup.string()
   	.matches(/^[a-zA-Z]+$/, 'Please enter valid country name')
 	.required(
@@ -89,7 +91,7 @@ const validationSchema = Yup.object({
   	.matches(/^[a-zA-Z]+$/, 'Please enter valid city name')
   	.required("Base location City is required"),
   clientWorkCountryName: Yup.string()
-  	.matches(/^[a-zA-Z]+$/, 'Please enter valid client country name')	
+  	.matches(/^[a-zA-Z]+$/, 'Please enter valid client country name')
 	.required(
 		"Client location country is required"
 	),
@@ -118,6 +120,41 @@ const internalSelect = [
   },
 ];
 
+const practiceUnits = [
+  {
+    value: "Data",
+    label: "Data",
+  },
+  {
+    value: "DI",
+    label: "DI",
+  },
+  {
+    value: "A3",
+    label: "A3",
+  },
+  {
+    value: "IC",
+    label: "IC",
+  },
+  {
+    value: "TSL",
+    label: "TSL",
+  },
+  {
+    value: "PG",
+    label: "PG",
+  },
+  {
+    value: "DX",
+    label: "DX",
+  },
+  {
+    value: "PC",
+    label: "PC",
+  },
+];
+
 const statuses = [
   {
     value: "cleared",
@@ -141,6 +178,17 @@ const dcStatus = [
   {
     value: "dcCompleted",
     label: "DC Completed",
+  },
+];
+
+const techSelectStatus = [
+  {
+    value: "completed",
+    label: "Completed",
+  },
+  {
+    value: "notCompleted",
+    label: "Not Completed",
   },
 ];
 
@@ -309,7 +357,12 @@ function CreateCandidate() {
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="baseBU" label="Base BU" required />
+                    <FormikSelect
+                      name="baseBU"
+                      items={practiceUnits}
+                      label="Base BU"
+                      required
+                    />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField name="clientBU" label="Client BU" required />
@@ -371,7 +424,7 @@ function CreateCandidate() {
                     <FormikSelect
                       name="status"
                       items={statuses}
-                      label="status"
+                      label="Status"
                       required
                     />
                   </Grid>
@@ -472,15 +525,13 @@ function CreateCandidate() {
                       name="pevStatus"
                       items={statuses}
                       label="PEV Status"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="techSelectStatus"
-                      items={statuses}
+                      items={techSelectStatus}
                       label="Tech Select Status"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -490,7 +541,6 @@ function CreateCandidate() {
                       label="Tech Selection Date"
                       variant="dialog"
                       format="dd/MM/yyyy"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -506,7 +556,6 @@ function CreateCandidate() {
                       label="Tentative DOJ"
                       variant="dialog"
                       format="dd/MM/yyyy"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
