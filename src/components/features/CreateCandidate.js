@@ -41,7 +41,7 @@ const validationSchema = Yup.object({
   	.matches(/^[a-zA-Z0-9]+$/, 'Enter valid Grade')
   	.required("Grade is a required field"),
   skills: Yup.string()
-  	.matches(/[a-zA-Z0-9,;.]/g, 'Please remove invalid special characters')
+  	.matches(/[a-zA-Z0-9,;.\s]/g, 'Please remove invalid special characters')
   	.required("Skills is a required field"),
   totalExp: Yup.number()
   .required(
@@ -51,21 +51,23 @@ const validationSchema = Yup.object({
   clientBU: Yup.string().required("Client BU is a required field"),
   salesPOC: Yup.string().required("Sales POC is a required field"),
   deliveryManager: Yup.string()
-  .matches(/^[a-zA-Z]+$/, 'Please enter valid Delivery manager name')
+  .matches(/^[a-zA-Z\s]+$/, 'Please enter valid Delivery manager name')
   .required(
     "Delivery manager is a required field"
   ),
   clientHiringManager: Yup.string()
-  .matches(/^[a-zA-Z]+$/, 'Please enter valid Client hiring manager name')
+  .matches(/^[a-zA-Z\s]+$/, 'Please enter valid Client hiring manager name')
   .required(
     "Client hiring manager is a required field"
   ),
   clientHead: Yup.string()
-  .matches(/^[a-zA-Z]+$/, 'Please enter valid Client head name')
+  .matches(/^[a-zA-Z\s]+$/, 'Please enter valid Client head name')
   .required("Client head is a requied field"),
   bgvDate: Yup.date().required(),
-  billRate: Yup.string()
-  .matches(/[a-zA-Z0-9$]/g, 'Please enter valid Bill Rate')
+  billRate: Yup.number()
+  .min(124, 'Bill Rate must be less than or equal to 124')
+  .max(999, 'Bill Rate must be less than or equal to 999')
+  //.matches(/[0-9$]/g, 'Please enter valid Bill Rate')
   .required("Bill rate is a required field"),
   bgvStatus: Yup.string().required("BGV Status is required"),
   locationStatus: Yup.string().required(),
@@ -74,14 +76,11 @@ const validationSchema = Yup.object({
   clientCToolID: Yup.string()
   .matches(/^[a-zA-Z0-9]+$/, 'Please enter valid Client CTool ID'),
   jobCategory: Yup.string(),
-  dcInitiationDate: Yup.date(),
-  dcClearedDate: Yup.date(),
   dcstatus: Yup.string(),
   pevStatus: Yup.string(),
   peoplesoftID: Yup.string()
     .matches(/^[0-9]+$/, 'Please enter valid Peoplesoft ID'),
   techSelectStatus: Yup.string(),
-  techSelectionDate: Yup.date(),
   ltiWorkCountryName: Yup.string()
   	.matches(/^[a-zA-Z]+$/, 'Please enter valid country name')
 	.required(
@@ -91,12 +90,12 @@ const validationSchema = Yup.object({
   	.matches(/^[a-zA-Z]+$/, 'Please enter valid city name')
   	.required("Base location City is required"),
   clientWorkCountryName: Yup.string()
-  	.matches(/^[a-zA-Z]+$/, 'Please enter valid client country name')
+  	.matches(/^[a-zA-Z\s]+$/, 'Please enter valid client country name')
 	.required(
 		"Client location country is required"
 	),
   clientWorkCityName: Yup.string()
-  	.matches(/^[a-zA-Z]+$/, 'Please enter valid client city name')
+  	.matches(/^[a-zA-Z\s]+$/, 'Please enter valid client city name')
 	.required(
 		"Client location country is required"
 	),
@@ -437,7 +436,7 @@ function CreateCandidate() {
                       name="offerReleaseDate"
                       label="Offer Release Date"
                       variant="dialog"
-                      format="dd/MM/yyyy"                      
+                      format="dd/MM/yyyy"
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -462,13 +461,13 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField
                       name="clientCToolID"
-                      label="Client CTool ID"                      
+                      label="Client CTool ID"
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField
                       name="positionID"
-                      label="Position ID"                      
+                      label="Position ID"
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -562,24 +561,28 @@ function CreateCandidate() {
                     <FormikField
                       name="ltiWorkCountryName"
                       label="Candidate Country"
+                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField
                       name="ltiWorkCityName"
                       label="Candidate City"
+                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField
                       name="clientWorkCountryName"
                       label="Client Country"
+                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField
                       name="clientWorkCityName"
                       label="Client City"
+                      required
                     />
                   </Grid>
                 </Grid>
