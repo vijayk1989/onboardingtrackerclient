@@ -13,6 +13,8 @@ import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import { TrackerContext, initialFormData } from "../../context/TrackerContext";
 import { useHistory } from "react-router-dom";
+import FormSelectionData from '../../Data/FormSelectionData';
+import ValidationSchema from '../validation/ValidationSchema';
 
 const useStyles = makeStyles((theme) => ({
   candidateFormGrid: {
@@ -24,191 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const validationSchema = Yup.object({
-  candidateName: Yup.string()
-    .matches(/^[a-zA-Z '-]+$/, "Enter valid Candidate Name")
-    .required("Candidate Name is a required field"),
-  // onboardingStatus: Yup.string().required(
-  //   "Onboarding Status is a required field"
-  // ),
-  // candidateLTIId: Yup.string()
-  //   .matches(/^[0-9]+$/, "Enter valid Candidate LTI Id")
-  //   .required("Candidate LTI Id is a required field"),
-  // clientSelectionDate: Yup.date().required(
-  //   "Candidate Selection date is a required field"
-  // ),
-  // grade: Yup.string().required("Grade is a required field"),
-  // skills: Yup.string()
-  //   .matches(/[a-zA-Z0-9,;.]/g, "Please remove invalid special characters")
-  //   .required("Skills is a required field"),
-  // totalExp: Yup.number().required(
-  //   "Total experience is a required field and should be in months"
-  // ),
-  // baseBU: Yup.string().required("Base BU is a required field"),
-  // clientBU: Yup.string().required("Client BU is a required field"),
-  // salesPOC: Yup.string().required("Sales POC is a required field"),
-  // deliveryManager: Yup.string()
-  //   .matches(/^[a-zA-Z]+$/, "Please enter valid Delivery manager name")
-  //   .required("Delivery manager is a required field"),
-  // clientHiringManager: Yup.string()
-  //   .matches(/^[a-zA-Z]+$/, "Please enter valid Client hiring manager name")
-  //   .required("Client hiring manager is a required field"),
-  // clientHead: Yup.string()
-  //   .matches(/^[a-zA-Z]+$/, "Please enter valid Client head name")
-  //   .required("Client head is a requied field"),
-  // bgvDate: Yup.date().required(),
-  // billRate: Yup.string()
-  //   .matches(/[a-zA-Z0-9$]/g, "Please enter valid Bill Rate")
-  //   .required("Bill rate is a required field"),
-  // bgvStatus: Yup.string().required("BGV Status is required"),
-  // locationStatus: Yup.string().required(),
-  // //offerReleaseDate: Yup.string().required(),
-  // ltiDOJ: Yup.date().required(),
-  // clientCToolID: Yup.string().matches(
-  //   /^[a-zA-Z0-9]+$/,
-  //   "Please enter valid Client CTool ID"
-  // ),
-  // jobCategory: Yup.string(),
-  // dcInitiationDate: Yup.date(),
-  // dcClearedDate: Yup.date(),
-  // dcstatus: Yup.string(),
-  // pevStatus: Yup.string(),
-  // peoplesoftID: Yup.string().matches(
-  //   /^[0-9]+$/,
-  //   "Please enter valid Peoplesoft ID"
-  // ),
-  // techSelectStatus: Yup.string(),
-  // techSelectionDate: Yup.date(),
-  // ltiWorkCountryName: Yup.string()
-  //   .matches(/^[a-zA-Z]+$/, "Please enter valid country name")
-  //   .required("Base location country is required"),
-  // ltiWorkCityName: Yup.string()
-  //   .matches(/^[a-zA-Z]+$/, "Please enter valid city name")
-  //   .required("Base location City is required"),
-  // clientWorkCountryName: Yup.string()
-  //   .matches(/^[a-zA-Z]+$/, "Please enter valid client country name")
-  //   .required("Client location country is required"),
-  // clientWorkCityName: Yup.string()
-  //   .matches(/^[a-zA-Z]+$/, "Please enter valid client city name")
-  //   .required("Client location country is required"),
-});
-
 const formatDate = (date) => {
   var year = date.getFullYear().toString();
   var month = (date.getMonth() + 101).toString().substring(1);
   var day = (date.getDate() + 100).toString().substring(1);
   return year + "-" + month + "-" + day;
 };
-
-const internalSelect = [
-  {
-    value: "Internal",
-    label: "Internal",
-  },
-  {
-    value: "External",
-    label: "External",
-  },
-];
-
-const statuses = [
-  {
-    value: "cleared",
-    label: "Cleared",
-  },
-  {
-    value: "pending",
-    label: "Pending",
-  },
-  {
-    value: "notInitiated",
-    label: "Not Initiated",
-  },
-];
-
-const practiceUnits = [
-  {
-    value: "Data",
-    label: "Data",
-  },
-  {
-    value: "DI",
-    label: "DI",
-  },
-  {
-    value: "A3",
-    label: "A3",
-  },
-  {
-    value: "IC",
-    label: "IC",
-  },
-  {
-    value: "TSL",
-    label: "TSL",
-  },
-  {
-    value: "PG",
-    label: "PG",
-  },
-  {
-    value: "DX",
-    label: "DX",
-  },
-  {
-    value: "PC",
-    label: "PC",
-  },
-];
-
-const dcStatus = [
-  {
-    value: "dcInitiated",
-    label: "DC Initiated",
-  },
-  {
-    value: "dcCompleted",
-    label: "DC Completed",
-  },
-];
-
-const techSelectStatus = [
-  {
-    value: "completed",
-    label: "Completed",
-  },
-  {
-    value: "notCompleted",
-    label: "Not Completed",
-  },
-];
-
-const bgvStatus = [
-  {
-    value: "initiated",
-    label: "Initiated",
-  },
-  {
-    value: "documentSubmitted",
-    label: "Document Submitted",
-  },
-  {
-    value: "documentReceived",
-    label: "Document Received",
-  },
-  {
-    value: "WIP",
-    label: "WIP",
-  },
-  {
-    value: "completed",
-    label: "Completed",
-  },
-  {
-    value: "consultHR",
-    label: "Consult HR",
-  },
-];
 
 function CreateCandidate() {
   const classes = useStyles();
@@ -297,10 +120,10 @@ function CreateCandidate() {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Formik
           initialValues={formData}
-          validationSchema={validationSchema}
+          validationSchema={Yup.object(ValidationSchema)}
           onSubmit={onSubmit}
         >
-          {({ dirty, isValid }) => {
+          {({ dirty, isValid, errors }) => {
             return (
               <Form>
                 <Grid
@@ -309,6 +132,7 @@ function CreateCandidate() {
                   direction="row"
                   spacing={2}
                 >
+                  {console.log(errors)}
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikField
                       name="candidateName"
@@ -319,7 +143,7 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="onboardingStatus"
-                      items={internalSelect}
+                      items={FormSelectionData.internalSelect}
                       label="Internal / External"
                       required
                     />
@@ -358,7 +182,7 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="baseBU"
-                      items={practiceUnits}
+                      items={FormSelectionData.practiceUnits}
                       label="Base BU"
                       required
                     />
@@ -406,7 +230,7 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="bgvStatus"
-                      items={bgvStatus}
+                      items={FormSelectionData.bgvStatus}
                       label="BGV Status"
                       required
                     />
@@ -414,7 +238,7 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="locationStatus"
-                      items={statuses}
+                      items={FormSelectionData.statuses}
                       label="Location Status"
                       required
                     />
@@ -422,7 +246,7 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="status"
-                      items={statuses}
+                      items={FormSelectionData.statuses}
                       label="C-Tool Status"
                       required
                     />
@@ -461,7 +285,6 @@ function CreateCandidate() {
                     <FormikField
                       name="clientCToolID"
                       label="Client CTool ID"
-                      required
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -512,21 +335,21 @@ function CreateCandidate() {
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="dcstatus"
-                      items={dcStatus}
+                      items={FormSelectionData.dcStatus}
                       label="DC Status"
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="pevStatus"
-                      items={statuses}
+                      items={FormSelectionData.statuses}
                       label="PEV Status"
                     />
                   </Grid>
                   <Grid item lg={5} md={10} sm={10} xs={10}>
                     <FormikSelect
                       name="techSelectStatus"
-                      items={techSelectStatus}
+                      items={FormSelectionData.techSelectStatus}
                       label="Tech Select Status"
                     />
                   </Grid>
