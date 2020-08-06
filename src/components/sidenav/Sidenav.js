@@ -6,9 +6,9 @@ import "./Sidenav.css";
 const Sidenav = () => {
   return (
     <div id="mySidenav" className="sidenav">
-      <Link to="">Report 1</Link>
-      <Link to="">Report 2</Link>
-      <Link to="">Report 2</Link>
+      <Link to="/tracker/report1">Report 1</Link>
+      <Link to="/tracker/report2">Report 2</Link>
+      <Link to="/tracker/report3">Report 3</Link>
     </div>
   );
 };
