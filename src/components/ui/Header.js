@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -7,8 +8,11 @@ import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import { Link } from "react-router-dom";
+import MenuIcon from "@material-ui/icons/Menu";
+import ClearIcon from "@material-ui/icons/Clear";
 
 import logo from "../../assets/LTI_logo.png";
+import Sidenav from "../sidenav/Sidenav";
 
 function ElevationScroll(props) {
   const { children } = props;
@@ -44,10 +48,15 @@ const useStyles = makeStyles((theme) => ({
       marginRight: "20px",
     },
   },
+  menuIcon: {
+    cursor: "pointer",
+  },
 }));
 
 function Header(props) {
   const [value, setValue] = useState(0);
+  const [openSidenav, setOpenSidenav] = useState(false);
+  const location = useLocation();
 
   const handleChange = (e, value) => {
     setValue(value);
@@ -67,6 +76,21 @@ function Header(props) {
       <ElevationScroll>
         <AppBar position="fixed">
           <Toolbar disableGutters>
+            {!openSidenav && location.pathname === "/tracker" && (
+              <MenuIcon
+                fontSize="large"
+                className={classes.menuIcon}
+                onClick={() => setOpenSidenav(!openSidenav)}
+              />
+            )}
+            {openSidenav && location.pathname === "/tracker" && (
+              <ClearIcon
+                fontSize="large"
+                className={classes.menuIcon}
+                onClick={() => setOpenSidenav(!openSidenav)}
+              />
+            )}
+
             <img src={logo} className={classes.logo} alt="company logo" />
             <Typography variant="h4" className={classes.logoText}>
               Tracker
@@ -98,6 +122,7 @@ function Header(props) {
           </Toolbar>
         </AppBar>
       </ElevationScroll>
+      {openSidenav && <Sidenav />}
       <div className={classes.toolbarMargin} />
     </React.Fragment>
   );
