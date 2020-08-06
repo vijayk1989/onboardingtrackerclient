@@ -13,16 +13,28 @@ import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 import { TrackerContext, initialFormData } from "../../context/TrackerContext";
 import { useHistory } from "react-router-dom";
-import FormSelectionData from '../../Data/FormSelectionData';
-import ValidationSchema from '../validation/ValidationSchema';
+import FormSelectionData from "../../Data/FormSelectionData";
+import ValidationSchema from "../validation/ValidationSchema";
 
 const useStyles = makeStyles((theme) => ({
   candidateFormGrid: {
     margin: "10px",
   },
   candidateForm: {
-    marginTop: "10px",
+    marginTop: "2px",
     marginBottom: "10px",
+    width: "95%",
+  },
+  candidateFormContainer: {
+    margin: "5px 10px",
+  },
+  formHeading: {
+    textDecoration: "underline",
+    marginBottom: 0,
+    padding: 0,
+  },
+  candidateFormItems: {
+    paddingBottom: "10px",
   },
 }));
 
@@ -115,7 +127,7 @@ function CreateCandidate() {
   };
 
   return (
-    <React.Fragment>
+    <div className={classes.candidateFormContainer}>
       <Typography variant="h5">New Candidate Form</Typography>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <Formik
@@ -123,289 +135,365 @@ function CreateCandidate() {
           validationSchema={Yup.object(ValidationSchema)}
           onSubmit={onSubmit}
         >
-          {({ dirty, isValid, errors }) => {
+          {({ dirty, isValid }) => {
             return (
               <Form>
-                <Grid
-                  className={classes.candidateForm}
-                  container
-                  direction="row"
-                  spacing={2}
-                >
-                  {console.log(errors)}
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="candidateName"
-                      label="Candidate Name"
-                      required
-                    />
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>Candidate Data</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="candidateName"
+                        label="Candidate Name"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="onboardingStatus"
+                        items={FormSelectionData.internalSelect}
+                        label="Internal / External"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="candidateLTIId"
+                        label="Candidate LTI ID"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="clientSelectionDate"
+                        label="Client Selection Date"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="grade" label="Grade" required />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="skills" label="Skills" required />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="totalExp"
+                        type="number"
+                        label="Total Experience (Months)"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="baseBU"
+                        items={FormSelectionData.practiceUnits}
+                        label="Base BU"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="clientBU" label="Client BU" required />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="salesPOC" label="Sales POC" required />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="deliveryManager"
+                        label="Delivery Manager"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="clientHiringManager"
+                        label="Client Hiring Mananger"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="clientHead"
+                        label="Client Head"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="billRate"
+                        label="Bill Rate (Per Day)"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="actionItems" label="Action Items" />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="offerReleaseDate"
+                        label="Offer Release Date"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="jobCategory" label="Job Category" />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="onboardingStatus"
-                      items={FormSelectionData.internalSelect}
-                      label="Internal / External"
-                      required
-                    />
+                </div>
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>BGV Data</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="bgvDate"
+                        label="BGV Date"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="bgvStatus"
+                        items={FormSelectionData.bgvStatus}
+                        label="BGV Status"
+                        required
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="candidateLTIId"
-                      label="Candidate LTI ID"
-                      required
-                    />
+                </div>
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>C-TOOL Data</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="locationStatus"
+                        items={FormSelectionData.statuses}
+                        label="Location Status"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="status"
+                        items={FormSelectionData.statuses}
+                        label="C-Tool Status"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="ltiDOJ"
+                        label="LTI DOJ"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="clientCToolID"
+                        label="Client CTool ID"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="positionID" label="Position ID" />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="costCenter" label="Cost Center" />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="clientSelectionDate"
-                      label="Client Selection Date"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                      required
-                    />
+                </div>
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>Client Data</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="clientDOJ"
+                        label="Client DOJ"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="clientLWD"
+                        label="Client LWD"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="peoplesoftID" label="Peoplesoft ID" />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="tentativeDOJ"
+                        label="Tentative DOJ"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="grade" label="Grade" required />
+                </div>
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>DC Data</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="dcInitiationDate"
+                        label="DC Initiation Date"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="dcClearedDate"
+                        label="DC Cleared Date"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="dcstatus"
+                        items={FormSelectionData.dcStatus}
+                        label="DC Status"
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="skills" label="Skills" required />
+                </div>
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>Tech Select Data</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="techSelectStatus"
+                        items={FormSelectionData.techSelectStatus}
+                        label="Tech Select Status"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="techSelectionDate"
+                        label="Tech Selection Date"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="totalExp"
-                      type="number"
-                      label="Total Experience (Months)"
-                      required
-                    />
+                </div>
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>Location Data</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="ltiWorkCountryName"
+                        label="Candidate Country"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="ltiWorkCityName"
+                        label="Candidate City"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="clientWorkCountryName"
+                        label="Client Country"
+                        required
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="clientWorkCityName"
+                        label="Client City"
+                        required
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="baseBU"
-                      items={FormSelectionData.practiceUnits}
-                      label="Base BU"
-                      required
-                    />
+                </div>
+                <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>Miscallaneous</h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="ltiRR" label="LTI RR" />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField
+                        name="litOpportunity"
+                        label="LTI Opportunity"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="pevStatus"
+                        items={FormSelectionData.statuses}
+                        label="PEV Status"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikField name="remarks" label="Remarks" />
+                    </Grid>
                   </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="clientBU" label="Client BU" required />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="salesPOC" label="Sales POC" required />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="deliveryManager"
-                      label="Delivery Manager"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="clientHiringManager"
-                      label="Client Hiring Mananger"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="clientHead"
-                      label="Client Head"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="billRate" label="Bill Rate" required />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="bgvDate"
-                      label="BGV Date"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="bgvStatus"
-                      items={FormSelectionData.bgvStatus}
-                      label="BGV Status"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="locationStatus"
-                      items={FormSelectionData.statuses}
-                      label="Location Status"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="status"
-                      items={FormSelectionData.statuses}
-                      label="C-Tool Status"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="actionItems" label="Action Items" />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="offerReleaseDate"
-                      label="Offer Release Date"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="ltiDOJ"
-                      label="LTI DOJ"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="ltiRR" label="LTI RR" />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="litOpportunity"
-                      label="LTI Opportunity"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="clientCToolID"
-                      label="Client CTool ID"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="positionID" label="Position ID" />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="costCenter" label="Cost Center" />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="clientDOJ"
-                      label="Client DOJ"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="clientLWD"
-                      label="Client LWD"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="jobCategory" label="Job Category" />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="dcInitiationDate"
-                      label="DC Initiation Date"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="dcClearedDate"
-                      label="DC Cleared Date"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="dcstatus"
-                      items={FormSelectionData.dcStatus}
-                      label="DC Status"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="pevStatus"
-                      items={FormSelectionData.statuses}
-                      label="PEV Status"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikSelect
-                      name="techSelectStatus"
-                      items={FormSelectionData.techSelectStatus}
-                      label="Tech Select Status"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="techSelectionDate"
-                      label="Tech Selection Date"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="remarks" label="Remarks" />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField name="peoplesoftID" label="Peoplesoft ID" />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <Field
-                      component={DatePicker}
-                      name="tentativeDOJ"
-                      label="Tentative DOJ"
-                      variant="dialog"
-                      format="dd/MM/yyyy"
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="ltiWorkCountryName"
-                      label="Candidate Country"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="ltiWorkCityName"
-                      label="Candidate City"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="clientWorkCountryName"
-                      label="Client Country"
-                      required
-                    />
-                  </Grid>
-                  <Grid item lg={5} md={10} sm={10} xs={10}>
-                    <FormikField
-                      name="clientWorkCityName"
-                      label="Client City"
-                      required
-                    />
-                  </Grid>
-                </Grid>
+                </div>
                 <Button
                   disabled={!dirty || !isValid}
                   variant="contained"
@@ -419,7 +507,7 @@ function CreateCandidate() {
           }}
         </Formik>
       </MuiPickersUtilsProvider>
-    </React.Fragment>
+    </div>
   );
 }
 
