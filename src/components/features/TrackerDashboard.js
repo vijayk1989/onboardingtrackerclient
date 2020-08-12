@@ -13,11 +13,11 @@ const TrackerDashboard = ({ match, path, location }) => {
 
   return (
     <div>
-      <Grid container spacing={1}>
-        <Grid item xs={1} sm={2} lg={2}>
+      <Grid container>
+        <Grid item xs={2} sm={2} lg={2}>
           <Sidenav />
         </Grid>
-        <Grid item xs={11} sm={10} lg={10}>
+        <Grid item xs={10} sm={10} lg={10}>
           {(location.pathname === "/tracker" ||
             location.pathname === "/tracker/ctool-report") && <CToolReport />}
           {location.pathname === "/tracker/techselectfourday-report" && (
