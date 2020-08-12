@@ -209,7 +209,7 @@ const TechSelectSevenDayReport = () => {
           },
         ]}
         data={Data["TechSelectfourDay"]}
-        title="C-Tool not created"
+        title="Tech Select Seven Day"
       />
     </div>
   );

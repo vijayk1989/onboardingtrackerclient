@@ -208,8 +208,8 @@ const TechSelectFourDayReport = () => {
             hidden: true,
           },
         ]}
-        data={Data["CTOOLNOTCREATED"]}
-        title="C-Tool not created"
+        data={Data["TechSelectfourDay"]}
+        title="Tech Select Fourth Day"
       />
     </div>
   );
