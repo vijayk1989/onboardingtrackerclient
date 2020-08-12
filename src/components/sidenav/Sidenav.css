@@ -11,16 +11,33 @@
 }
 
 .sidenav a {
-  padding: 4px 4px 4px 24px;
+  padding: 4px 4px 4px 8px;
   text-decoration: none;
-  font-size: 1rem;
-  color: #818181;
+  font-size: 0.9rem;
+  color: #fff;
   display: block;
   transition: 0.3s;
 }
 
+.sidenav ul {
+  padding-inline-start: 0;
+}
+
+.sidenav ul li {
+  list-style-type: none;
+  margin: 0 5px;
+  padding: 7px 0;
+  border-bottom: #fff 1px outset;
+  line-height: 30px;
+}
+
+.sidenav ul li:last-child {
+  border-bottom: 0px;
+}
+
 .sidenav a:hover {
   color: #f1f1f1;
+  background-color: #808080;
 }
 
 @media screen and (max-height: 450px) {
@@ -29,6 +46,12 @@
   }
   .sidenav a {
     font-size: 18px;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  .sidenav {
+    width: 310px;
   }
 }
 
