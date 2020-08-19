@@ -71,7 +71,7 @@ function CandidateTable() {
       try {
         const response = await axios.get("http://localhost:8080/onboarding");
         if (response.data) {
-          // console.log(response.data);
+          console.log(response.data);
           prepareTableData(response.data);
           return response.data;
         }
@@ -108,6 +108,12 @@ function CandidateTable() {
             title: "Client Selection Date",
             field: "clientSelectionDate",
           },
+          { title: "C-Tool Status", field: "status" },
+          { title: "BGV Status", field: "bgvStatus" },
+          {
+            title: "BGV Date",
+            field: "bgvDate",
+          },
           {
             title: "Grade",
             field: "grade",
@@ -138,13 +144,7 @@ function CandidateTable() {
             title: "Bill Rate",
             field: "billRate",
           },
-          {
-            title: "BGV Date",
-            field: "bgvDate",
-          },
-          { title: "BGV Status", field: "bgvStatus" },
           { title: "Location Status", field: "locationStatus" },
-          { title: "Status", field: "status" },
           {
             title: "Action Items",
             field: "actionItems",

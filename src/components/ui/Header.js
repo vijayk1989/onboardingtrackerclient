@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -52,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
   const [value, setValue] = useState(0);
-  const location = useLocation();
 
   const handleChange = (e, value) => {
     setValue(value);

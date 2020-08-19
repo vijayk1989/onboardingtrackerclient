@@ -34,13 +34,11 @@ const ValidationSchema = {
   clientHead: Yup.string()
     .matches(/^[a-zA-Z\s]+$/, "Please enter valid Client head name")
     .required("Client head is a requied field"),
-  bgvDate: Yup.date().required(),
   billRate: Yup.number()
     .min(124, "Bill Rate must be less than or equal to 124")
     .max(999, "Bill Rate must be less than or equal to 999")
     .required("Bill rate is a required field"),
   bgvStatus: Yup.string().required("BGV Status is required"),
-  locationStatus: Yup.string().required(),
   clientCToolID: Yup.string().matches(
     /^[a-zA-Z0-9]+$/,
     "Please enter valid Client CTool ID"

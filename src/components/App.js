@@ -6,9 +6,6 @@ import CreateCandidate from "./features/CreateCandidate";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import CandidateTable from "./features/CandidateTable";
 import TrackerContextProvider from "../context/TrackerContext";
-import CToolReport from "../components/features/CToolReport";
-import TechSelectFourDayReport from "../components/features/TechSelectFourDayReport";
-import TechSelectSevenDayReport from "../components/features/TechSelectSevenDayReport";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TrackerDashboard from "../components/features/TrackerDashboard";
 

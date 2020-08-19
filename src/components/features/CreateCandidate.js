@@ -247,6 +247,15 @@ function CreateCandidate() {
                       />
                     </Grid>
                     <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="ltiDOJ"
+                        label="LTI DOJ"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
                       <FormikField name="jobCategory" label="Job Category" />
                     </Grid>
                   </Grid>
@@ -266,7 +275,6 @@ function CreateCandidate() {
                         label="BGV Date"
                         variant="dialog"
                         format="dd/MM/yyyy"
-                        required
                       />
                     </Grid>
                     <Grid item lg={5} md={10} sm={10} xs={10}>
@@ -289,34 +297,14 @@ function CreateCandidate() {
                   >
                     <Grid item lg={5} md={10} sm={10} xs={10}>
                       <FormikSelect
-                        name="locationStatus"
-                        items={FormSelectionData.statuses}
-                        label="Location Status"
-                        required
-                      />
-                    </Grid>
-                    <Grid item lg={5} md={10} sm={10} xs={10}>
-                      <FormikSelect
                         name="status"
-                        items={FormSelectionData.statuses}
+                        items={FormSelectionData.cToolStatus}
                         label="C-Tool Status"
                         required
                       />
                     </Grid>
                     <Grid item lg={5} md={10} sm={10} xs={10}>
-                      <Field
-                        component={DatePicker}
-                        name="ltiDOJ"
-                        label="LTI DOJ"
-                        variant="dialog"
-                        format="dd/MM/yyyy"
-                      />
-                    </Grid>
-                    <Grid item lg={5} md={10} sm={10} xs={10}>
-                      <FormikField
-                        name="clientCToolID"
-                        label="Client CTool ID"
-                      />
+                      <FormikField name="clientCToolID" label="HSBC CTool ID" />
                     </Grid>
                     <Grid item lg={5} md={10} sm={10} xs={10}>
                       <FormikField name="positionID" label="Position ID" />
@@ -338,7 +326,7 @@ function CreateCandidate() {
                       <Field
                         component={DatePicker}
                         name="clientDOJ"
-                        label="Client DOJ"
+                        label="HSBC DOJ"
                         variant="dialog"
                         format="dd/MM/yyyy"
                       />
@@ -347,7 +335,7 @@ function CreateCandidate() {
                       <Field
                         component={DatePicker}
                         name="clientLWD"
-                        label="Client LWD"
+                        label="HSBC LWD"
                         variant="dialog"
                         format="dd/MM/yyyy"
                       />
@@ -410,19 +398,19 @@ function CreateCandidate() {
                     spacing={2}
                   >
                     <Grid item lg={5} md={10} sm={10} xs={10}>
-                      <FormikSelect
-                        name="techSelectStatus"
-                        items={FormSelectionData.techSelectStatus}
-                        label="Tech Select Status"
-                      />
-                    </Grid>
-                    <Grid item lg={5} md={10} sm={10} xs={10}>
                       <Field
                         component={DatePicker}
                         name="techSelectionDate"
                         label="Tech Selection Date"
                         variant="dialog"
                         format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="techSelectStatus"
+                        items={FormSelectionData.techSelectStatus}
+                        label="Tech Select Status"
                       />
                     </Grid>
                   </Grid>
@@ -452,14 +440,14 @@ function CreateCandidate() {
                     <Grid item lg={5} md={10} sm={10} xs={10}>
                       <FormikField
                         name="clientWorkCountryName"
-                        label="Client Country"
+                        label="HSBC Country"
                         required
                       />
                     </Grid>
                     <Grid item lg={5} md={10} sm={10} xs={10}>
                       <FormikField
                         name="clientWorkCityName"
-                        label="Client City"
+                        label="HSBC City"
                         required
                       />
                     </Grid>
@@ -487,6 +475,13 @@ function CreateCandidate() {
                         name="pevStatus"
                         items={FormSelectionData.statuses}
                         label="PEV Status"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="locationStatus"
+                        items={FormSelectionData.statuses}
+                        label="Location Status"
                       />
                     </Grid>
                     <Grid item lg={5} md={10} sm={10} xs={10}>
