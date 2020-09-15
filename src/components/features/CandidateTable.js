@@ -228,7 +228,7 @@ function CandidateTable() {
           },
         ]}
         data={Data}
-        title="Candidate Onboarding Table"
+        title="LTI Selection Tracker"
         actions={[
           {
             icon: () => <Edit />,
@@ -241,6 +241,9 @@ function CandidateTable() {
             },
           },
         ]}
+        options={{
+          exportButton: true,
+        }}
       />
     </div>
   );
