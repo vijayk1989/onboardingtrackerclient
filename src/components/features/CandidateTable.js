@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { forwardRef } from "react";
+import { dateFormat } from "../utils/dateFormat";
 
 import AddBox from "@material-ui/icons/AddBox";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -228,7 +229,7 @@ function CandidateTable() {
           },
         ]}
         data={Data}
-        title="LTI Selection Tracker"
+        title={"Client selections as of " + dateFormat(new Date())}
         actions={[
           {
             icon: () => <Edit />,

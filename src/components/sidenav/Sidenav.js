@@ -8,16 +8,16 @@ const Sidenav = () => {
     <div id="mySidenav" className="sidenav">
       <ul>
         <li>
-          <Link to="/tracker/ctool-report">Ctool Report</Link>
+          <Link to="/tracker/ctool-report">C-Tool Not Available</Link>
         </li>
         <li>
           <Link to="/tracker/techselectfourday-report">
-            Tech Select Four Day Report
+            Tech Selection Aging (4 Days)
           </Link>
         </li>
         <li>
           <Link to="/tracker/techselectsevenday-report">
-            Tech Select Seven Day Report
+            Tech Selection Status
           </Link>
         </li>
       </ul>

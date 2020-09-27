@@ -48,9 +48,7 @@ const CToolReport = () => {
   useEffect(() => {
     const getTableData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/onboarding/alertService"
-        );
+        const response = await axios.get("http://localhost:8080/reports/ctool");
         if (response.data) {
           // console.log(response.data);
           setData(response.data);
@@ -66,6 +64,7 @@ const CToolReport = () => {
   return (
     <div>
       <MaterialTable
+        style={{ margin: "10px" }}
         icons={tableIcons}
         columns={[
           {
@@ -208,8 +207,8 @@ const CToolReport = () => {
             hidden: true,
           },
         ]}
-        data={Data["CTOOLNOTCREATED"]}
-        title="C-Tool not created"
+        data={Data}
+        title="C-Tool not available"
       />
     </div>
   );

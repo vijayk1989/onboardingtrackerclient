@@ -72,7 +72,7 @@ function Header(props) {
           <Toolbar disableGutters>
             <img src={logo} className={classes.logo} alt="company logo" />
             <Typography variant="h4" className={classes.logoText}>
-              Tracker
+              Selection Tracker
             </Typography>
             <Tabs
               value={value}
@@ -95,7 +95,7 @@ function Header(props) {
                 component={Link}
                 to="/tracker"
                 className={classes.tab}
-                label="Tracker"
+                label="Reports"
               />
             </Tabs>
           </Toolbar>

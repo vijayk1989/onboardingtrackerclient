@@ -19,6 +19,15 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import MaterialTable from "material-table";
 
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -43,13 +52,15 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
-const TechSelectFourDayReport = () => {
+const SelectionFromAndToReport = () => {
   const [Data, setData] = useState([]);
+  const [fromDate, setFromDate] = useState(new Date("2020-03-02"));
+  const [toDate, setToDate] = useState(new Date("2020-09-02"));
   useEffect(() => {
     const getTableData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/reports/fourDayBefore"
+          "http://localhost:8080/reports/selection?fromDate=2020-03-02&toDate=2020-09-02"
         );
         if (response.data) {
           // console.log(response.data);
@@ -64,10 +75,92 @@ const TechSelectFourDayReport = () => {
     };
     getTableData();
   }, []);
+
+  const formatDate = (date) => {
+    var year = date.getFullYear().toString();
+    var month = (date.getMonth() + 101).toString().substring(1);
+    var day = (date.getDate() + 100).toString().substring(1);
+    return year + "-" + month + "-" + day;
+  };
+
+  const handleFromDateChange = (date) => {
+    setFromDate(date);
+  };
+
+  const handleToDateChange = (date) => {
+    setToDate(date);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/reports/selection",
+        {
+          params: {
+            fromDate: formatDate(fromDate),
+            toDate: formatDate(toDate),
+          },
+        }
+      );
+      if (response.data) {
+        // console.log(response.data);
+        setData(response.data);
+        console.log(response.data);
+        // prepareTableData(response.data);
+        return response.data;
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div>
+      <div style={{ marginBottom: "10px" }}>
+        <Typography variant="h5">Please select from and to date</Typography>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Grid container justify="flex-start" alignItems="center" spacing={2}>
+            <Grid item>
+              <KeyboardDatePicker
+                margin="normal"
+                id="date-picker-dialog"
+                label="From Date"
+                format="dd/MM/yyyy"
+                value={fromDate}
+                onChange={handleFromDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <KeyboardDatePicker
+                margin="normal"
+                id="date-picker-dialog"
+                label="To Date"
+                format="dd/MM/yyyy"
+                value={toDate}
+                onChange={handleToDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
+                color="primary"
+                style={{ marginTop: "15px" }}
+              >
+                Submit
+              </Button>
+            </Grid>
+          </Grid>
+        </MuiPickersUtilsProvider>
+      </div>
       <MaterialTable
-        style={{ margin: "10px" }}
+        style={{ marginRight: "10px" }}
         icons={tableIcons}
         columns={[
           {
@@ -92,10 +185,12 @@ const TechSelectFourDayReport = () => {
             field: "clientSelectionDate",
           },
           {
+            cellStyle: { minWidth: "200px" },
             title: "Tech Select Status",
             field: "techSelectStatus",
           },
           {
+            cellStyle: { minWidth: "200px" },
             title: "Tech Selection Date",
             field: "techSelectionDate",
           },
@@ -211,10 +306,10 @@ const TechSelectFourDayReport = () => {
           },
         ]}
         data={Data}
-        title="Tech Selection Aging (4 days)"
+        title="Tech Selection Status"
       />
     </div>
   );
 };
 
-export default TechSelectFourDayReport;
+export default SelectionFromAndToReport;
