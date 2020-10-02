@@ -39,6 +39,21 @@ function App() {
                     component={TrackerDashboard}
                     exact
                   />
+                  <Route
+                    path={`${url}/pev-report`}
+                    component={TrackerDashboard}
+                    exact
+                  />
+                  <Route
+                    path={`${url}/mis-report`}
+                    component={TrackerDashboard}
+                    exact
+                  />
+                  <Route
+                    path={`${url}/onboarding-status-report`}
+                    component={TrackerDashboard}
+                    exact
+                  />
                 </>
               )}
             />

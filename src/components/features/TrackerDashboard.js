@@ -4,13 +4,12 @@ import Grid from "@material-ui/core/Grid";
 import CToolReport from "./CToolReport";
 import TechSelectFourDayReport from "./TechSelectFourDayReport";
 import SelectionFromAndToReport from "./SelectionFromAndToReport";
+import PEVReport from "./PEVReport";
+import MISReport from "./MISReport";
+import OnboardingStatusReport from "./OnboardingStatusReport";
 import Sidenav from "../sidenav/Sidenav";
 
 const TrackerDashboard = ({ match, path, location }) => {
-  console.log({ match });
-  console.log({ path });
-  console.log({ location });
-
   return (
     <div>
       <Grid container>
@@ -25,6 +24,11 @@ const TrackerDashboard = ({ match, path, location }) => {
           )}
           {location.pathname === "/tracker/techselectsevenday-report" && (
             <SelectionFromAndToReport />
+          )}
+          {location.pathname === "/tracker/pev-report" && <PEVReport />}
+          {location.pathname === "/tracker/mis-report" && <MISReport />}
+          {location.pathname === "/tracker/onboarding-status-report" && (
+            <OnboardingStatusReport />
           )}
         </Grid>
       </Grid>

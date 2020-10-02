@@ -20,6 +20,17 @@ const Sidenav = () => {
             Tech Selection Status
           </Link>
         </li>
+        <li>
+          <Link to="/tracker/pev-report">PEV Report</Link>
+        </li>
+        <li>
+          <Link to="/tracker/mis-report">MIS Report</Link>
+        </li>
+        <li>
+          <Link to="/tracker/onboarding-status-report">
+            Onboarding Status Report
+          </Link>
+        </li>
       </ul>
     </div>
   );
