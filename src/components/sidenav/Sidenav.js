@@ -10,11 +10,11 @@ const Sidenav = () => {
         <li>
           <Link to="/tracker/ctool-report">C-Tool Not Available</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/tracker/techselectfourday-report">
-            Tech Selection Aging (4 Days)
+            Tech Selection Aging (4 Days plus)
           </Link>
-        </li>
+        </li> */}
         <li>
           <Link to="/tracker/techselectsevenday-report">
             Tech Selection Status
@@ -23,13 +23,11 @@ const Sidenav = () => {
         <li>
           <Link to="/tracker/pev-report">PEV Report</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/tracker/mis-report">MIS Report</Link>
-        </li>
+        </li> */}
         <li>
-          <Link to="/tracker/onboarding-status-report">
-            Onboarding Status Report
-          </Link>
+          <Link to="/tracker/onboarding-status-report">MIS Reports</Link>
         </li>
       </ul>
     </div>

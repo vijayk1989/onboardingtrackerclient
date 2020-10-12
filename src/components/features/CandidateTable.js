@@ -229,7 +229,7 @@ function CandidateTable() {
           },
         ]}
         data={Data}
-        title={"Client selections as of " + dateFormat(new Date())}
+        title={"Client selection as of " + dateFormat(new Date())}
         actions={[
           {
             icon: () => <Edit />,

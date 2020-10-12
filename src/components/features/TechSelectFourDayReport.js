@@ -211,7 +211,7 @@ const TechSelectFourDayReport = () => {
           },
         ]}
         data={Data}
-        title="Tech Selection Aging (4 days)"
+        title="Tech Selection Aging (4 days plus)"
       />
     </div>
   );

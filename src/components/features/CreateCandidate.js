@@ -120,6 +120,9 @@ function CreateCandidate() {
       values["tentativeDOJ"] = values["tentativeDOJ"]
         ? formatDate(values.tentativeDOJ)
         : null;
+      values["onboardingDate"] = values["onboardingDate"]
+        ? formatDate(values.onboardingDate)
+        : null;
     }
     values["location"] = location;
     console.log("values", JSON.stringify(values, null, 2));
@@ -416,6 +419,34 @@ function CreateCandidate() {
                   </Grid>
                 </div>
                 <div className={classes.candidateFormItems}>
+                  <h3 className={classes.formHeading}>
+                    Onboarding Status Data
+                  </h3>
+                  <Grid
+                    className={classes.candidateForm}
+                    container
+                    direction="row"
+                    spacing={2}
+                  >
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <Field
+                        component={DatePicker}
+                        name="onboardingDate"
+                        label="Onboarding Date"
+                        variant="dialog"
+                        format="dd/MM/yyyy"
+                      />
+                    </Grid>
+                    <Grid item lg={5} md={10} sm={10} xs={10}>
+                      <FormikSelect
+                        name="statusOfOnboarding"
+                        items={FormSelectionData.onboardingStatus}
+                        label="Onboarding Status"
+                      />
+                    </Grid>
+                  </Grid>
+                </div>
+                <div className={classes.candidateFormItems}>
                   <h3 className={classes.formHeading}>Location Data</h3>
                   <Grid
                     className={classes.candidateForm}
@@ -473,7 +504,7 @@ function CreateCandidate() {
                     <Grid item lg={5} md={10} sm={10} xs={10}>
                       <FormikSelect
                         name="pevStatus"
-                        items={FormSelectionData.statuses}
+                        items={FormSelectionData.pevStatus}
                         label="PEV Status"
                       />
                     </Grid>

@@ -60,7 +60,7 @@ const SelectionFromAndToReport = () => {
     const getTableData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8080/reports/selection?fromDate=2020-03-02&toDate=2020-09-02"
+          "http://localhost:8080/reports/selection?fromDate=2020-03-02&toDate=2020-10-08"
         );
         if (response.data) {
           // console.log(response.data);
@@ -171,11 +171,6 @@ const SelectionFromAndToReport = () => {
           },
           {
             cellStyle: { minWidth: "200px" },
-            title: "Onboarding Status",
-            field: "onboardingStatus",
-          },
-          {
-            cellStyle: { minWidth: "200px" },
             title: "Candidate LTI Id",
             field: "candidateLTIId",
           },
@@ -234,6 +229,16 @@ const SelectionFromAndToReport = () => {
           {
             title: "Action Items",
             field: "actionItems",
+          },
+          {
+            cellStyle: { minWidth: "200px" },
+            title: "Onboarding Status",
+            field: "statusOfOnboarding",
+          },
+          {
+            cellStyle: { minWidth: "200px" },
+            title: "Onboarding Date",
+            field: "onboardingDate",
           },
           {
             title: "Offer Release Date",

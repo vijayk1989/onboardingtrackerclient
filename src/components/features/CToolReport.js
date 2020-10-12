@@ -75,11 +75,6 @@ const CToolReport = () => {
           },
           {
             cellStyle: { minWidth: "200px" },
-            title: "Onboarding Status",
-            field: "onboardingStatus",
-          },
-          {
-            cellStyle: { minWidth: "200px" },
             title: "Candidate LTI Id",
             field: "candidateLTIId",
           },
@@ -124,7 +119,7 @@ const CToolReport = () => {
           },
           { title: "BGV Status", field: "bgvStatus" },
           { title: "Location Status", field: "locationStatus" },
-          { title: "Status", field: "status" },
+          { title: "CTool Status", field: "status" },
           {
             title: "Action Items",
             field: "actionItems",
@@ -184,6 +179,11 @@ const CToolReport = () => {
           {
             title: "Selection Aging Days",
             field: "selectionAgingDays",
+          },
+          {
+            cellStyle: { minWidth: "200px" },
+            title: "Onboarding Status",
+            field: "onboardingStatus",
           },
           {
             title: "Candidate Country",

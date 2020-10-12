@@ -57,6 +57,20 @@ const FormSelectionData = {
       label: "Not Initiated",
     },
   ],
+  pevStatus: [
+    {
+      value: "Done",
+      label: "Done",
+    },
+    {
+      value: "Not Done",
+      label: "Not Done",
+    },
+    {
+      value: "WIP",
+      label: "WIP",
+    },
+  ],
   cToolStatus: [
     {
       value: "Active",
@@ -97,6 +111,10 @@ const FormSelectionData = {
       label: "Initiated",
     },
     {
+      value: "Not Initiated",
+      label: "Not Initiated",
+    },
+    {
       value: "documentSubmitted",
       label: "Document Submitted",
     },
@@ -105,16 +123,26 @@ const FormSelectionData = {
       label: "Document Received",
     },
     {
-      value: "WIP",
-      label: "WIP",
+      value: "In Progress",
+      label: "In Progress",
     },
     {
-      value: "completed",
-      label: "Completed",
+      value: "clear",
+      label: "clear",
     },
     {
       value: "consultHR",
       label: "Consult HR",
+    },
+  ],
+  onboardingStatus: [
+    {
+      value: "WIP",
+      label: "WIP",
+    },
+    {
+      value: "Completed",
+      label: "Completed",
     },
   ],
 };

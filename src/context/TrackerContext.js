@@ -45,6 +45,8 @@ export const initialFormData = {
   ltiWorkCityName: "",
   clientWorkCountryName: "",
   clientWorkCityName: "",
+  statusOfOnboarding: "",
+  onboardingDate: null,
   deleted: "false",
 };
 
